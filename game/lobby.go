@@ -30,16 +30,12 @@ var (
 		MinRounds:            1,
 		MaxRounds:            20,
 		MinMaxPlayers:        2,
-		MaxMaxPlayers:        24,
+		MaxMaxPlayers:        50,
 		MinClientsPerIPLimit: 1,
 		MaxClientsPerIPLimit: 24,
 	}
 	SupportedLanguages = map[string]string{
-		"english": "English",
-		"italian": "Italian",
-		"german":  "German",
-		"french":  "French",
-		"dutch":   "Dutch",
+		"spanish": "Spanish",
 	}
 )
 
@@ -193,7 +189,7 @@ func handleMessage(input string, sender *Player, lobby *Lobby) {
 			sender.Score += sender.LastScore
 			lobby.scoreEarnedByGuessers += sender.LastScore
 			sender.State = Standby
-			WriteAsJSON(sender, JSEvent{Type: "system-message", Data: "You have correctly guessed the word."})
+			WriteAsJSON(sender, JSEvent{Type: "system-message", Data: "Correcto, tu si sabes apreciar el arte."})
 
 			if !lobby.isAnyoneStillGuessing() {
 				endTurn(lobby)
@@ -207,7 +203,7 @@ func handleMessage(input string, sender *Player, lobby *Lobby) {
 
 			return
 		} else if levenshtein.ComputeDistance(lowerCasedInput, lowerCasedSearched) == 1 {
-			WriteAsJSON(sender, JSEvent{Type: "system-message", Data: fmt.Sprintf("'%s' is very close.", trimmed)})
+			WriteAsJSON(sender, JSEvent{Type: "system-message", Data: fmt.Sprintf("'%s' Casiiiiiiii le atinas brother.", trimmed)})
 		}
 
 		sendMessageToAll(trimmed, sender, lobby)
@@ -411,9 +407,9 @@ func endTurn(lobby *Lobby) {
 
 	var roundOverMessage string
 	if lobby.CurrentWord == "" {
-		roundOverMessage = "Round over. No word was chosen."
+		roundOverMessage = "Se te acabo el tiempo papa."
 	} else {
-		roundOverMessage = fmt.Sprintf("Round over. The word was '%s'", lobby.CurrentWord)
+		roundOverMessage = fmt.Sprintf("Se acabo la ronda, la palabra era '%s'", lobby.CurrentWord)
 	}
 
 	//The drawer can potentially be null if he's kicked, in that case we proceed with the round if anyone has already
@@ -490,7 +486,7 @@ func endGame(lobby *Lobby) {
 	recalculateRanks(lobby)
 	triggerPlayersUpdate(lobby)
 
-	WritePublicSystemMessage(lobby, "Game over. Type !start again to start a new round.")
+	//WritePublicSystemMessage(lobby, "Game over. Type !start again to start a new round.")
 }
 
 // selectNextDrawer returns the next person that's supposed to be drawing, but

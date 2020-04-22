@@ -32,7 +32,7 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 		CustomWordsChance: "50",
 		ClientsPerIPLimit: "1",
 		EnableVotekick:    "true",
-		Language:          "english",
+		Language:          "spanish",
 	}
 }
 
